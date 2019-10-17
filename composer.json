@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "lotus-orb/master",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Lotus CMS with Laravel Framework",
     "keywords": [
         "framework",
         "laravel"
