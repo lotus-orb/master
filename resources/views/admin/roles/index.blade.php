@@ -128,6 +128,47 @@
 	    $(document).ready(function() {
 
 	      var t = $('#datatable').DataTable({
+	      	  $('body').on('click', '.hapus', function( e ) {
+		            e.preventDefault();
+		            var me = $(this),
+		            	url = me.attr('href'),
+		            	title = me.attr('title');
+
+		            Swal.fire({
+					  title: 'Anda yakin akan menghapus ' + title + ' ?',
+					  text: 'Kami tidak bertanggung jawab atas tindakan ini!',
+					  type: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  confirmButtonText: 'Yes, hapus data!'
+					}).then((result) => {
+				        if (result.value) {
+				            $.ajax({
+				                url: url,
+					            type: 'DELETE',
+					            data: {method: '_DELETE'},
+					            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				                success: function (response) {
+				                    $('#datatable').DataTable().ajax.reload();
+				                    Swal.fire({
+				                        type: 'success',
+				                        title: 'Success!',
+				                        text: 'Data berhasil dihapus!'
+				                    });
+				                },
+				                error: function (xhr) {
+				                    Swal.fire({
+				                        type: 'error',
+				                        title: 'Oops...',
+				                        text: 'Terjadi Kesalahan!'
+				                    });
+				                }
+				            });
+				        }
+				    });
+		        });
+			  },
 	          processing: true,
 	          serverSide: true,
 	          "aaSorting": [[ 0,"desc" ]] ,
