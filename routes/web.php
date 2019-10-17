@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-	return view('auth.login');
-})->name('login');
-
+Route::get('/', 'AdminController@login')->name('login');
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {

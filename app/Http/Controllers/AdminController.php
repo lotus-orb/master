@@ -14,6 +14,11 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function login()
+    {
+        return view('auth.login');
+    }
+
     public function index()
     {
       return redirect()->route('admin.dashboard');

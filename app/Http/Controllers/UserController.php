@@ -21,7 +21,7 @@ class UserController extends Controller
     {
       $users = User::all();
       $roles = Role::all();
-      return view('admin.users.index')->withUsers($users)->withRoles($roles);
+      return view('admin.users.index', compact('users','roles'));
     }
     /**
      * Show the form for creating a new resource.
@@ -35,7 +35,7 @@ class UserController extends Controller
           return redirect()->route('admin.dashboard');
       }
       $roles = Role::all();
-      return view('admin.users.create')->withRoles($roles);
+      return view('admin.users.create', compact('roles'));
     }
     /**
      * Store a newly created resource in storage.
@@ -74,7 +74,7 @@ class UserController extends Controller
       if ($request->roles) {
         $users->syncRoles(explode(',', $request->roles));
       }
-      return redirect()->route('users.show', $users->id);
+      return redirect()->route('users.show', $users->id)->withSuccess('Success, Data Berhasil Disimpan!');
       // if () {
       //
       // } else {
@@ -103,7 +103,7 @@ class UserController extends Controller
     {
       $roles = Role::all();
       $users = User::where('id', $id)->with('roles.users')->first();
-      return view("admin.users.edit")->withUsers($users)->withRoles($roles);
+      return view("admin.users.edit", compact('roles','users'));
     }
     /**
      * Update the specified resource in storage.
@@ -136,7 +136,7 @@ class UserController extends Controller
       $users->save();
 
       $users->syncRoles(explode(',', $request->roles));
-      return redirect()->route('users.show', $id);
+      return redirect()->route('users.show', $id)->withSuccess('Success, Data berhasil diperbarui !');
       // if () {
       //   return redirect()->route('users.show', $id);
       // } else {
@@ -175,7 +175,7 @@ class UserController extends Controller
           //   })
 
           ->addColumn('action', function($users){
-            return  '<a href="'.route('users.destroy', $users->id).'" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
+            return  '<a href="'.route('users.edit', $users->id).'" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
                     '<a href="'.route('users.show', $users->id).'" class="btn btn-primary m-r-5"><i class="fa fa-eye"></i></a>'.
                     '<a href="'.route('users.destroy', $users->id).'" class="btn btn-danger m-r-5 hapus" title="'.$users->name.'"><i class="fa fa-trash"></i></a>';
           })

@@ -90,13 +90,13 @@
 													        </div>
 												    	</div>
 													</div>
+													<div class="modal-footer no-bd">
+														<button type="submit" class="btn btn-primary">Add</button>
+														<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+													</div>
 												</form>
 											</div>
 										</div>
-									</div>
-									<div class="modal-footer no-bd">
-										<a href="javascript:simpan()" class="btn btn-primary">Add</a>
-										<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 									</div>
 						    	</div>
 							</div>
@@ -199,9 +199,4 @@
 	      }
 	    });
     </script>
-	<script>
-		function simpan() {
-	  $('#frmArtikel').submit();
-	}
-	</script>
  @endsection

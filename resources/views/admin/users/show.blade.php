@@ -59,14 +59,8 @@
 					<div class="card-footer">
 						<div class="row">
 							<div class="col-md-12">
-								@if (Auth::user()->hasRole(['superadministrator','administrator']))
-								<a href="{{route('users.index')}}" class="btn btn-info m-r-10"><i class="fa fa-angle-left m-r-10"></i> Back to Users</a>
-								@else
-								<a href="{{route('users.edit', $users->id)}}" class="button is-primary"><i class="fa fa-user m-r-10"></i> Edit My Profil</a>
-								@endif
-								@if (Auth::user()->hasRole(['superadministrator','administrator']))
+								<a href="{{route('users.index')}}" class="btn btn-info m-r-10"><i class="fa fa-angle-left m-r-10"></i> Cancel</a>
 								<a href="{{route('users.edit', $users->id)}}" class="btn btn-primary"><i class="fa fa-user m-r-10"></i> Edit User</a>
-								@endif
 							</div>
 						</div>
 					</div>

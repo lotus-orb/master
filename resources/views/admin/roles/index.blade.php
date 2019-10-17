@@ -57,7 +57,7 @@
 									<div class="modal-body">
 										<div class="row">
 											<div class="col-md-12">
-												<form action="{{route('roles.store')}}" method="POST" id="frmRoles">
+												<form action="{{route('roles.store')}}" method="POST">
 		      										{{csrf_field()}}
 													<div class="row">
 														<div class="col-md-6">
@@ -88,13 +88,13 @@
 													        </div>
 												    	</div>
 													</div>
+													<div class="modal-footer">
+														<button type="submit" class="btn btn-primary">Add</button>
+														<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+													</div>
 												</form>
 											</div>
 										</div>
-									</div>
-									<div class="modal-footer no-bd">
-										<a href="javascript:simpan()" class="btn btn-primary">Add</a>
-										<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 									</div>
 						    	</div>
 							</div>
@@ -123,17 +123,25 @@
 @endsection
 
 @section('scripts')
+	<script>
+	  var app = new Vue({
+	    el: '#app',
+	    data: {
+	      permissionsSelected: []
+	    }
+	  });
+	</script>
   	<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
 	<script type="text/javascript">
 	    $(document).ready(function() {
 
 	      var t = $('#datatable').DataTable({
-	      	  $('body').on('click', '.hapus', function( e ) {
+	      	  "drawCallback": function( settings ) {
+	      	 	$('body').on('click', '.hapus', function( e ) {
 		            e.preventDefault();
 		            var me = $(this),
 		            	url = me.attr('href'),
 		            	title = me.attr('title');
-
 		            Swal.fire({
 					  title: 'Anda yakin akan menghapus ' + title + ' ?',
 					  text: 'Kami tidak bertanggung jawab atas tindakan ini!',
@@ -185,18 +193,5 @@
 	          ]
 	        });
 	      });
-	</script>
-	<script>
-	  var app = new Vue({
-	    el: '#app',
-	    data: {
-	      permissionsSelected: []
-	    }
-	  });
-	</script>
-    <script>
-	  	function simpan() {
-	      $('#frmRoles').submit();
-	   }
 	</script>
  @endsection

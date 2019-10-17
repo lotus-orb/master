@@ -67,7 +67,8 @@
 	    $(document).ready(function() {
 
 	      var t = $('#datatable').DataTable({
-	      	  $('body').on('click', '.hapus', function( e ) {
+	      	  "drawCallback": function( settings ) {
+	      	 	$('body').on('click', '.hapus', function( e ) {
 		            e.preventDefault();
 		            var me = $(this),
 		            	url = me.attr('href'),

@@ -120,8 +120,10 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $permissions = Permission::find($id);
+      $permissions->delete();
     }
+
     public function api_permissions() {
       $permissions = Permission::all();
       return Datatables::of($permissions)
@@ -137,13 +139,9 @@ class PermissionController extends Controller
           //   })
 
           ->addColumn('action', function($permissions){
-            return  '<a href="permissions/'.$permissions->id.'/edit" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
-                    '<a href="permissions/'.$permissions->id.'" class="btn btn-primary m-r-5"><i class="fa fa-eye"></i></a>'.
-                    '<form method="POST" action="'. route('permissions.destroy', $permissions->id) .'" style="display:inline-block !important;">
-                        '.csrf_field().'
-                        <input name="_method" type="hidden" value="DELETE">
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash m-r-5"></i></button>
-                    </form>';
+            return  '<a href="'.route('permissions.edit', $permissions->id).'" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
+                    '<a href="'.route('permissions.show', $permissions->id).'" class="btn btn-primary m-r-5"><i class="fa fa-eye"></i></a>'.
+                    '<a href="'.route('permissions.destroy', $permissions->id).'" class="btn btn-danger m-r-5 hapus" title="'.$permissions->display_name.'"><i class="fa fa-trash"></i></a>';
           })
           ->addIndexColumn()
           ->make(true);

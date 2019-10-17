@@ -16,7 +16,7 @@ class RoleController extends Controller
     {
       $permissions = Permission::all();
       $roles = Role::all();
-      return view('admin.roles.index')->withRoles($roles)->withPermissions($permissions);
+      return view('admin.roles.index', compact('permissions', 'roles'));
     }
     /**
      * Show the form for creating a new resource.
@@ -26,7 +26,7 @@ class RoleController extends Controller
     public function create()
     {
       $permissions = Permission::all();
-      return view('admin.roles.create')->withPermissions($permissions);
+      return view('admin.roles.create', compact('permissions'));
     }
     /**
      * Store a newly created resource in storage.
@@ -50,7 +50,7 @@ class RoleController extends Controller
         $roles->syncPermissions(explode(',', $request->permissions));
       }
       Session::flash('success', 'Berhasil membuat baru '. $roles->display_name . ' role ke database.');
-      return redirect()->route('roles.show', $roles->id);
+      return redirect()->route('roles.show', $roles->id)->withSuccess('Success, Data berhasil dibuat !');
     }
     /**
      * Display the specified resource.
@@ -61,7 +61,7 @@ class RoleController extends Controller
     public function show($id)
     {
       $roles = Role::where('id', $id)->with('permissions')->first();
-      return view('admin.roles.show')->withRoles($roles);
+      return view('admin.roles.show', compact('roles'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -73,7 +73,7 @@ class RoleController extends Controller
     {
       $roles = Role::where('id', $id)->with('permissions')->first();
       $permissions = Permission::all();
-      return view('admin.roles.edit')->withRoles($roles)->withPermissions($permissions);
+      return view('admin.roles.edit', compact('roles', 'permissions'));
     }
     /**
      * Update the specified resource in storage.
@@ -96,7 +96,7 @@ class RoleController extends Controller
         $roles->syncPermissions(explode(',', $request->permissions));
       }
       Session::flash('success', 'Berhasil update '. $roles->display_name . ' role ke database.');
-      return redirect()->route('roles.show', $id);
+      return redirect()->route('roles.show', $id)->withSuccess('Success, Data berhasil diperbarui !');
     }
     /**
      * Remove the specified resource from storage.
@@ -108,7 +108,6 @@ class RoleController extends Controller
     {
       $roles = Role::find($id);
       $roles->delete();
-      return redirect()->route('roles.index')->with('alert-success','Data berhasi dihapus!');
     }
 
     public function api_roles() {
@@ -126,13 +125,9 @@ class RoleController extends Controller
           //   })
 
           ->addColumn('action', function($roles){
-            return  '<a href="roles/'.$roles->id.'/edit" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
-                    '<a href="roles/'.$roles->id.'" class="btn btn-primary m-r-5"><i class="fa fa-eye"></i></a>'.
-                    '<form method="POST" action="'. route('roles.destroy', $roles->id) .'" style="display:inline-block !important;">
-                        '.csrf_field().'
-                        <input name="_method" type="hidden" value="DELETE">
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash m-r-5"></i></button>
-                    </form>';
+            return  '<a href="'.route('roles.edit', $roles->id).'" class="btn btn-info m-r-5"><i class="fa fa-edit"></i></a>'.
+                    '<a href="'.route('roles.show', $roles->id).'" class="btn btn-primary m-r-5"><i class="fa fa-eye"></i></a>'.
+                    '<a href="'.route('roles.destroy', $roles->id).'" class="btn btn-danger m-r-5 hapus" title="'.$roles->display_name.'"><i class="fa fa-trash"></i></a>';
           })
           ->addIndexColumn()
           ->make(true);

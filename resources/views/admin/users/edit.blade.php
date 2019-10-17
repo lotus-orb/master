@@ -76,7 +76,8 @@
 									</div>
 						        </div>
 			                    <div class="col-6">
-					              <button class="btn btn-primary">Edit User</button>
+			                      <a href="{{route('users.index')}}" class="btn btn-info m-r-10"><i class="fa fa-angle-left m-r-10"></i> Cancel</a>
+					              <button class="btn btn-primary">Simpan</button>
 			                    </div>
 							</div>
 						</form>
